@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Feed</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Live Video Feed with Face Detection</h1>
+    <button id="captureBtn">Capture</button>
+    <div id="feedContainer">
+        <img id="vid_feed" src="{{ url_for('video_feed') }}" alt="Video Feed">
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            var count = 0;
+
+            $('#captureBtn').click(function() {
+                if (count < 100) {
+                    $.ajax({
+                        type: "GET",
+                        url: "/capture_image",
+                        success: function(response) {
+                            console.log("Image captured:", response);
+                            count++;
+                            if (count === 100) {
+                                alert("100 images captured!");
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Error capturing image:", error);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+
